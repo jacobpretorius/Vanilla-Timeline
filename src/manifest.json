@@ -1,0 +1,29 @@
+{
+  "content_scripts": [{
+    "js": [
+      "contentscript.js"
+    ],
+    "matches": [ 
+      "https://twitter.com/home"
+     ]
+  }],
+  "permissions": [
+    "storage"
+  ],
+  "icons": { 
+    "32": "icon-32.ico",    
+    "64": "icon-64.ico",
+    "128": "icon-128.ico"
+  },
+  "name": "Vanilla Timeline",
+  "version": "1.0",
+  "author": "Jacob Pretorius",
+  "description": "For those of us who like social media less noisy.",
+  "homepage_url": "https://github.com/jacobpretorius/Vanilla-Timeline",
+  "manifest_version": 2,
+  "web_accessible_resources": 
+  [
+    "VanillaTimeline.js"
+  ],
+  "options_page": "settings.html"
+}

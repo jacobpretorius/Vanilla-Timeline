@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Vanilla Timeline Settings</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto|Sen&display=swap" rel="stylesheet">
+<style>
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    padding: 2rem;
+}
+
+h1 {
+    font-family: 'Sen', sans-serif;
+}
+
+.option {
+    font-size: 14px;
+}
+
+.add-account {
+    padding: 1rem 0 0 0;
+}
+
+.add-account-row {
+    padding: 0 0 1rem 0;
+}
+
+.add-account-name {
+    padding: 5px 10px;
+    border: 1px solid;
+    border-radius: 3px;
+}
+
+.whitelist-table {
+    padding: 1rem 0;
+    width: 600px;
+}
+
+td:nth-child(2) {
+    text-align: center;
+    font-weight: bold;
+}
+
+p {
+    font-size: 15px;
+}
+
+a {
+    text-decoration: underline;
+    font-weight: bolder;
+    color: black;
+}
+
+button {
+    border: 1px solid;
+    border-radius: 3px;
+    background: white;
+    padding: 5px 10px;
+}
+
+.btn-green {
+    background: #7ceabd;
+}
+
+.bg-green {
+    padding: 1rem;
+    background-color: #7ceabd;
+    border-radius: 3px;
+}
+
+#deleteRowBtn:hover {
+    cursor: pointer;
+}
+
+button:hover {
+    box-shadow: 1px 1px 2px 1px;
+}
+
+.hidden {
+    display: none;
+}
+</style>
+    <link rel="stylesheet" type="text/css" href="resources/datatables.min.css"/>
+    <script type="text/javascript" src="resources/datatables.min.js"></script>
+</head>
+<body>
+<h1>Vanilla Timeline Settings</h1>
+
+<label class="option">
+    <input type="checkbox" id="retweets">
+    Hide retweets.
+</label>
+<br/>
+<label class="option">
+    <input type="checkbox" id="likes">
+    Hide likes.
+</label>
+<br/>
+
+<h2 class="add-account">Whitelisted accounts</h2>
+<div class="add-account-row">
+    <input type="text" id="addAccountName" class="add-account-name" placeholder="@username" value=""></input>
+    <button id="addRow">Add account</button>
+</div>
+
+<div class="whitelist-table">
+    <table id="whitelistTable" ></table>
+</div>
+
+<br/>
+<div id="status" class="bg-green hidden">Options saved. Remember to refresh Twitter for the changes to take effect.</div>
+
+<br/>
+<button id="save" class="btn-green">Save</button>
+
+<br/>
+<br/>
+
+<p>
+If you found this extension useful feel free to <a href="https://twitter.com/intent/tweet?text=Twitter is better with the Vanilla Timeline Chrome/Brave extension. Check it out here https://github.com/jacobpretorius/Vanilla-Timeline thanks @jacob_pretorius" target="_blank">Tweet</a> about it or give it a star on <a href="https://github.com/jacobpretorius/Vanilla-Timeline" target="_blank">Github</a>.
+</p>
+
+<script src="settings.js"></script>
+</body>
+</html>
