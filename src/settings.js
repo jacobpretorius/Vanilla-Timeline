@@ -1,4 +1,4 @@
-var accounts = [""];
+var accounts = [];
 
 // Saves options to chrome.storage
 function save_options() {
