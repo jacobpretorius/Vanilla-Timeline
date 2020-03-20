@@ -1,5 +1,3 @@
-console.log("Vanilla Timeline is starting.");
-
 // Thread.sleep() in JS
 const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -79,22 +77,26 @@ var hideLikes = false;
 var whitelistAccounts = [];
 var allTweets = document.querySelectorAll("article");
 
-window.addEventListener('load', async function () {
+window.onload = async function () {
+    console.log("Vanilla Timeline is starting.");
+    
     while (true) {
         // Load the settings
-        chrome.storage.sync.get({
-            hideRetweets: true,
-            hideLikes: true,
-            accounts: []
-        }, function(items) {
-            hideRetweets = items.hideRetweets;
-            hideLikes = items.hideLikes;
-            if (items.accounts !== null && items.accounts.length){
-                items.accounts.forEach(handle => {
-                    whitelistAccounts.push(handle.replace("@", "/"));
-                });
-            }
-        });
+        try { 
+            chrome.storage.sync.get({
+                hideRetweets: true,
+                hideLikes: true,
+                accounts: []
+            }, function(items) {
+                hideRetweets = items.hideRetweets;
+                hideLikes = items.hideLikes;
+                if (items.accounts !== null && items.accounts.length){
+                    items.accounts.forEach(handle => {
+                        whitelistAccounts.push(handle.replace("@", "/"));
+                    });
+                }
+            });
+        } catch (e) {}
         
         // Loop all article elements (tweets) every 300ms
         this.allTweets = document.querySelectorAll("article");
@@ -103,5 +105,4 @@ window.addEventListener('load', async function () {
         
         processTweets();
     }
-});
-
+}
