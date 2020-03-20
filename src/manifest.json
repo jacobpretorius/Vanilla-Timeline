@@ -5,8 +5,7 @@
     ],
     "matches": [ 
       "https://twitter.com/*"
-     ],
-    "include_globs":  ["https://twitter.com/home", "https://twitter.com/", "https://twitter.com"]
+    ]
   }],
   "permissions": [
     "storage"
@@ -18,7 +17,7 @@
     "128": "icon-128.png"
   },
   "name": "Vanilla Timeline",
-  "version": "1.3",
+  "version": "1.4",
   "author": "Jacob Pretorius",
   "description": "For those of us who like social media less noisy.",
   "homepage_url": "https://github.com/jacobpretorius/Vanilla-Timeline",

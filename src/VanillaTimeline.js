@@ -23,7 +23,7 @@ const checkChildForRetweet = (thisNode) => {
 
 const checkChildForLiked = (thisNode) => {
     if (thisNode.innerText && thisNode.innerText.length 
-        && thisNode.innerText.endsWith("Liked")) {
+        && thisNode.innerText.endsWith("liked")) {
         return true;
     }
 
@@ -72,6 +72,17 @@ const processTweets = _ => {
     });
 };
 
+const onValidUrl = () =>{
+    let activeUrl = window.location.toString();
+    // Only run on these three urls
+    if (activeUrl === "https://twitter.com" 
+    || activeUrl === "https://twitter.com/" 
+    || activeUrl === "https://twitter.com/home") {
+        return true;
+    }
+    return false;
+}
+
 var hideRetweets = false;
 var hideLikes = false;
 var whitelistAccounts = [];
@@ -81,28 +92,29 @@ window.onload = async function () {
     console.log("Vanilla Timeline is starting.");
     
     while (true) {
-        // Load the settings
-        try { 
-            chrome.storage.sync.get({
-                hideRetweets: true,
-                hideLikes: true,
-                accounts: []
-            }, function(items) {
-                hideRetweets = items.hideRetweets;
-                hideLikes = items.hideLikes;
-                if (items.accounts !== null && items.accounts.length){
-                    items.accounts.forEach(handle => {
-                        whitelistAccounts.push(handle.replace("@", "/"));
-                    });
-                }
-            });
-        } catch (e) {}
-        
-        // Loop all article elements (tweets) every 300ms
-        this.allTweets = document.querySelectorAll("article");
-
         await sleep(300);
-        
-        processTweets();
-    }
+        if (onValidUrl()) {
+            // Load the settings
+            try { 
+                chrome.storage.sync.get({
+                    hideRetweets: true,
+                    hideLikes: true,
+                    accounts: []
+                }, function(items) {
+                    hideRetweets = items.hideRetweets;
+                    hideLikes = items.hideLikes;
+                    if (items.accounts !== null && items.accounts.length){
+                        items.accounts.forEach(handle => {
+                            whitelistAccounts.push(handle.replace("@", "/"));
+                        });
+                    }
+                });
+            } catch (e) {} // Chrome gets sad if you navigate out of script context. We don't care as the plugin shouldn't run then
+            
+            // Loop all article elements (tweets) every 300ms
+            this.allTweets = document.querySelectorAll("article");
+
+            processTweets();
+        }
+    }    
 }
