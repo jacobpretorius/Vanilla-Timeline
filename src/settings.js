@@ -1,14 +1,16 @@
 var accounts = [];
 
 // Saves options to chrome.storage
-function save_options() {
-    var hideRetweets = document.getElementById("retweets").checked;
-    var hideLikes = document.getElementById("likes").checked;
+var save_options = () => {
+    let hideRetweets = document.getElementById("retweets").checked;
+    let hideLikes = document.getElementById("likes").checked;
+    let hideLists = document.getElementById("lists").checked;
 
     chrome.storage.sync.set(
         {
             hideRetweets,
             hideLikes,
+            hideLists,
             accounts
         },
         function() {
@@ -24,16 +26,18 @@ function save_options() {
 
 // Restores state using the preferences
 // stored in chrome.storage.
-function restore_options() {
+var restore_options = () =>  {
     chrome.storage.sync.get(
         {
             hideRetweets: true,
             hideLikes: true,
+            hideLists: false,
             accounts: []
         },
         function(items) {
             document.getElementById("retweets").checked = items.hideRetweets;
             document.getElementById("likes").checked = items.hideLikes;
+            document.getElementById("lists").checked = items.hideLists;
             accounts = items.accounts;
         }
     );
@@ -43,10 +47,15 @@ document.addEventListener("DOMContentLoaded", restore_options);
 document.addEventListener("load", restore_options);
 document.getElementById("save").addEventListener("click", save_options);
 
+document.getElementById("retweets").addEventListener("click", save_options);
+document.getElementById("likes").addEventListener("click", save_options);
+document.getElementById("lists").addEventListener("click", save_options);
+
 $(document).ready(function() {
     const deleteRow = event => {
         accounts = accounts.filter(value => value !== event.target.dataset.row);
         drawTable();
+        save_options();
     }
 
     const drawTable = _ => {
@@ -66,7 +75,6 @@ $(document).ready(function() {
     });
 
     drawTable();
-
 
     $("#addRow").on("click", function() {
         var user = document.getElementById("addAccountName").value;
@@ -88,5 +96,6 @@ $(document).ready(function() {
 
         accounts.push(user);
         document.getElementById("addAccountName").value = "";
+        save_options();
     });
 });

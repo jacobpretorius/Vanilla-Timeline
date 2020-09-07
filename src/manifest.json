@@ -16,11 +16,11 @@
     "64": "icon-64.png",
     "128": "icon-128.png"
   },
-  "name": "Vanilla Timeline",
-  "version": "1.4",
+  "name": "Vanilla Timeline for Twitter",
+  "version": "1.5",
   "author": "Jacob Pretorius",
-  "description": "For those of us who like social media less noisy.",
-  "homepage_url": "https://github.com/jacobpretorius/Vanilla-Timeline",
+  "description": "For those of us who like Twitter less noisy.",
+  "homepage_url": "https://projects.jcpretorius.com/vanilla-timeline",
   "manifest_version": 2,
   "options_page": "settings.html"
 }

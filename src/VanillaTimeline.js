@@ -39,6 +39,24 @@ const checkChildForLiked = (thisNode) => {
     return false;
 }
 
+const checkChildForList = (thisNode) => {
+    if (thisNode.innerText && thisNode.innerText.length 
+        && thisNode.innerText.startsWith("Tweet from")) {
+        return true;
+    }
+
+    if (thisNode.children.length > 0) {
+        for (let i = 0; i < thisNode.children.length; i++) {
+            if (checkChildForList(thisNode.children[i]))
+            {
+                return true
+            }
+        }
+    }
+
+    return false;
+}
+
 const isWhitelistAccountTweet = tweet => {
     let allLinks = tweet.querySelectorAll("a");
     for (let i = 0; i < allLinks.length; i++) {
@@ -60,11 +78,15 @@ const processTweets = _ => {
         } else
         if (this.hideRetweets && checkChildForRetweet(tweet)) {
             tweet.remove();
-            console.log(`${tweet.innerText.substring(0, tweet.innerText.indexOf("Retweeted"))}retweet hidden.`);
+            console.log('Retweet hidden.');
         } else 
         if (this.hideLikes && checkChildForLiked(tweet)) {
             tweet.remove();
-            console.log(`${tweet.innerText.substring(0, tweet.innerText.indexOf("Liked"))}like hidden.`);
+            console.log('Liked tweet hidden.');
+        }
+        if (this.hideLists && checkChildForList(tweet)) {
+            tweet.remove();
+            console.log('List tweet hidden.');
         }
         else {
             tweet.classList.add("vanilla-timeline-pass");
@@ -85,6 +107,7 @@ const onValidUrl = () =>{
 
 var hideRetweets = false;
 var hideLikes = false;
+var hideLists = false;
 var whitelistAccounts = [];
 var allTweets = document.querySelectorAll("article");
 
@@ -99,10 +122,12 @@ window.onload = async function () {
                 chrome.storage.sync.get({
                     hideRetweets: true,
                     hideLikes: true,
+                    hideLists: false,
                     accounts: []
                 }, function(items) {
                     hideRetweets = items.hideRetweets;
                     hideLikes = items.hideLikes;
+                    hideLists = items.hideLists;
                     if (items.accounts !== null && items.accounts.length){
                         items.accounts.forEach(handle => {
                             whitelistAccounts.push(handle.replace("@", "/"));
