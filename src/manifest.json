@@ -1,7 +1,7 @@
 {
   "content_scripts": [{
     "js": [
-      "VanillaTimeline.js"
+      "VanillaTimeline.js", "Localization.js"
     ],
     "matches": [ 
       "https://twitter.com/*"
@@ -17,7 +17,7 @@
     "128": "icon-128.png"
   },
   "name": "Vanilla Timeline for Twitter",
-  "version": "1.5",
+  "version": "1.6",
   "author": "Jacob Pretorius",
   "description": "For those of us who like Twitter less noisy.",
   "homepage_url": "https://projects.jcpretorius.com/vanilla-timeline",
