@@ -4,9 +4,9 @@ This extension does not access, store, track, or collect any of your data whatso
 
 This extension does not access your Twitter account in any way. All it does is visually modify your feed presentation.
 
-There are cookies set, and none of your existing cookies are read.
+There are no cookies set, and none of your existing cookies are read.
 
-There is no analytics information collected.
+There are no analytics information collected.
 
 You are not being spied on by this extension.
 
