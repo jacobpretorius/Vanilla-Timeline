@@ -20,6 +20,11 @@ var VanillaTimelineLocalization = [
       i18n: "tweet from",
       checkStart: true,
     },
+    Follow: {
+      // 'Someuser and 5 others follow'
+      i18n: "follow",
+      checkStart: false,
+    },
   },
   {
     Name: "Portuguese",
@@ -40,6 +45,11 @@ var VanillaTimelineLocalization = [
       // 'Tweet de Some List'
       i18n: "tweet de",
       checkStart: true,
+    },
+    Follow: {
+      // 'Someuser e 5 outros seguem'
+      i18n: "seguem",
+      checkStart: false,
     },
   },
 ];

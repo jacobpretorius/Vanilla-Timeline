@@ -89,6 +89,30 @@ const checkChildForList = (thisNode) => {
   return false;
 };
 
+const checkChildForFollow = (thisNode) => {
+  let thisNodeResult = compareText(
+    this.LocalizationSettings.Follow.checkStart,
+    thisNode.innerText,
+    this.LocalizationSettings.Follow.i18n,
+    false,
+    null
+  );
+
+  if (thisNodeResult) {
+    return true;
+  }
+
+  if (thisNode.children.length > 0) {
+    for (let i = 0; i < thisNode.children.length; i++) {
+      if (checkChildForFollow(thisNode.children[i])) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
 const isWhitelistAccountTweet = (tweet) => {
   let allLinks = tweet.querySelectorAll("a");
   for (let i = 0; i < allLinks.length; i++) {
@@ -104,31 +128,38 @@ const isWhitelistAccountTweet = (tweet) => {
 };
 
 const processTweets = () => {
-  this.allTweets.forEach((tweet) => {
+  for (let i = 0; i < this.allTweets.length; i++) {
+    const tweet = this.allTweets[i];
+
     if (tweet.classList.contains("vanilla-timeline-pass")) {
-      return;
+      continue;
     }
     if (isWhitelistAccountTweet(tweet)) {
       tweet.classList.add("vanilla-timeline-pass");
-      return;
+      continue;
     }
     if (this.hideRetweets && checkChildForRetweet(tweet)) {
       tweet.remove();
       console.log("Retweet hidden.");
-      return;
+      continue;
     }
     if (this.hideLikes && checkChildForLiked(tweet)) {
       tweet.remove();
       console.log("Liked tweet hidden.");
-      return;
+      continue;
     }
     if (this.hideLists && checkChildForList(tweet)) {
       tweet.remove();
       console.log("List tweet hidden.");
-      return;
+      continue;
+    }
+    if (this.hideFollow && checkChildForFollow(tweet)) {
+      tweet.remove();
+      console.log("Suggested related follow tweet hidden.");
+      continue;
     }
     tweet.classList.add("vanilla-timeline-pass");
-  });
+  }
 };
 
 const onValidUrl = () => {
@@ -147,6 +178,7 @@ const onValidUrl = () => {
 var hideRetweets = false;
 var hideLikes = false;
 var hideLists = false;
+var hideFollow = false;
 var whitelistAccounts = [];
 var selectedLanguage = "";
 var LocalizationSettings = {};
@@ -154,7 +186,7 @@ var LocalizationSettings = {};
 var allTweets = document.querySelectorAll("article");
 
 window.onload = async function () {
-  console.log("Vanilla Timeline is starting - v1.6");
+  console.log("Vanilla Timeline is starting - v1.7");
 
   while (true) {
     await sleep(300);
@@ -166,6 +198,7 @@ window.onload = async function () {
             hideRetweets: true,
             hideLikes: true,
             hideLists: false,
+            hideFollow: true,
             language: "English",
             accounts: [],
           },
@@ -173,6 +206,7 @@ window.onload = async function () {
             hideRetweets = items.hideRetweets;
             hideLikes = items.hideLikes;
             hideLists = items.hideLists;
+            hideFollow = items.hideFollow;
 
             if (selectedLanguage !== items.language) {
               selectedLanguage = items.language;
