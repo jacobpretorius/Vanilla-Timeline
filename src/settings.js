@@ -13,6 +13,7 @@ var save_options = () => {
   let hideLikes = document.getElementById("likes").checked;
   let hideLists = document.getElementById("lists").checked;
   let hideFollow = document.getElementById("follow").checked;
+  let hidePromoted = document.getElementById("promoted").checked;
   let language = document.getElementById("language").value;
 
   chrome.storage.sync.set(
@@ -21,6 +22,7 @@ var save_options = () => {
       hideLikes,
       hideLists,
       hideFollow,
+      hidePromoted,
       language,
       accounts,
     },
@@ -44,6 +46,7 @@ var restore_options = () => {
       hideLikes: true,
       hideLists: false,
       hideFollow: true,
+      hidePromoted: false,
       language: "English",
       accounts: [],
     },
@@ -52,6 +55,7 @@ var restore_options = () => {
       document.getElementById("likes").checked = items.hideLikes;
       document.getElementById("lists").checked = items.hideLists;
       document.getElementById("follow").checked = items.hideFollow;
+      document.getElementById("promoted").checked = items.hidePromoted;
       document.getElementById("language").value = items.language;
       accounts = items.accounts;
     }
@@ -67,6 +71,7 @@ document.getElementById("retweets").addEventListener("click", save_options);
 document.getElementById("likes").addEventListener("click", save_options);
 document.getElementById("lists").addEventListener("click", save_options);
 document.getElementById("follow").addEventListener("click", save_options);
+document.getElementById("promoted").addEventListener("click", save_options);
 
 $(document).ready(function () {
   const deleteRow = (event) => {

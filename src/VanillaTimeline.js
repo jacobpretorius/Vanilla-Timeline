@@ -113,6 +113,30 @@ const checkChildForFollow = (thisNode) => {
   return false;
 };
 
+const checkChildForPromoted = (thisNode) => {
+  let thisNodeResult = compareText(
+    this.LocalizationSettings.Promoted.checkStart,
+    thisNode.innerText,
+    this.LocalizationSettings.Promoted.i18n,
+    false,
+    null,
+  );
+
+  if (thisNodeResult) {
+    return true;
+  }
+
+  if (thisNode.children.length > 0) {
+    for (let i = 0; i < thisNode.children.length; i++) {
+      if (checkChildForFollow(thisNode.children[i])) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
 const isWhitelistAccountTweet = (tweet) => {
   let allLinks = tweet.querySelectorAll("a");
   for (let i = 0; i < allLinks.length; i++) {
@@ -158,6 +182,11 @@ const processTweets = () => {
       console.log("Suggested related follow tweet hidden.");
       continue;
     }
+    if (this.hidePromoted && checkChildForPromoted(tweet)) {
+      tweet.remove();
+      console.log("Promoted tweet hidden.");
+      continue;
+    }
     tweet.classList.add("vanilla-timeline-pass");
   }
 };
@@ -179,6 +208,7 @@ var hideRetweets = false;
 var hideLikes = false;
 var hideLists = false;
 var hideFollow = false;
+var hidePromoted = false;
 var whitelistAccounts = [];
 var selectedLanguage = "";
 var LocalizationSettings = {};
@@ -186,7 +216,7 @@ var LocalizationSettings = {};
 var allTweets = document.querySelectorAll("article");
 
 window.onload = async function () {
-  console.log("Vanilla Timeline is starting - v1.7");
+  console.log("Vanilla Timeline is starting - v1.8");
 
   while (true) {
     await sleep(300);
@@ -199,6 +229,7 @@ window.onload = async function () {
             hideLikes: true,
             hideLists: false,
             hideFollow: true,
+            hidePromoted: false,
             language: "English",
             accounts: [],
           },
@@ -207,6 +238,7 @@ window.onload = async function () {
             hideLikes = items.hideLikes;
             hideLists = items.hideLists;
             hideFollow = items.hideFollow;
+            hidePromoted = items.hidePromoted;
 
             if (selectedLanguage !== items.language) {
               selectedLanguage = items.language;

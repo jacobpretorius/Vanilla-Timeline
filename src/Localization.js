@@ -25,6 +25,11 @@ var VanillaTimelineLocalization = [
       i18n: "follow",
       checkStart: false,
     },
+    Promoted: {
+      // Promoted tweet (ad)
+      i18n: "promoted",
+      checkStart: true,
+    },
   },
   {
     Name: "Portuguese",
@@ -46,10 +51,10 @@ var VanillaTimelineLocalization = [
       i18n: "tweet de",
       checkStart: true,
     },
-    Follow: {
-      // 'Someuser e 5 outros seguem'
-      i18n: "seguem",
-      checkStart: false,
+    Promoted: {
+      // I don't speak Portuguese ;) Please help
+      i18n: "promovido",
+      checkStart: true,
     },
   },
 ];
