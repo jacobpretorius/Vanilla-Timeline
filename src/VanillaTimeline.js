@@ -128,7 +128,7 @@ const checkChildForPromoted = (thisNode) => {
 
   if (thisNode.children.length > 0) {
     for (let i = 0; i < thisNode.children.length; i++) {
-      if (checkChildForFollow(thisNode.children[i])) {
+      if (checkChildForPromoted(thisNode.children[i])) {
         return true;
       }
     }
@@ -216,7 +216,7 @@ var LocalizationSettings = {};
 var allTweets = document.querySelectorAll("article");
 
 window.onload = async function () {
-  console.log("Vanilla Timeline is starting - v1.8");
+  console.log("Vanilla Timeline is starting - v1.8.1");
 
   while (true) {
     await sleep(300);
