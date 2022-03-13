@@ -119,7 +119,7 @@ const checkChildForPromoted = (thisNode) => {
     thisNode.innerText,
     this.LocalizationSettings.Promoted.i18n,
     false,
-    null,
+    null
   );
 
   if (thisNodeResult) {
@@ -191,6 +191,54 @@ const processTweets = () => {
   }
 };
 
+const processTrending = (trending) => {
+  if (!trending) return;
+  if (trending.classList.contains("vanilla-timeline-pass")) return;
+
+  // Create the notification
+  let trendingBlocker = document.createElement("div");
+  trendingBlocker.id = "vanilla_timeline__trending_blocker";
+  trendingBlocker.style.background = "#2e2e2e";
+  trendingBlocker.style.top = "0";
+  trendingBlocker.style.right = "0";
+  trendingBlocker.style.bottom = "0";
+  trendingBlocker.style.left = "0";
+  trendingBlocker.style.position = "absolute";
+  trendingBlocker.style.zIndex = "99";
+  trendingBlocker.style.display = "flex";
+  trendingBlocker.style.flexDirection = "column";
+  trendingBlocker.style.justifyContent = "center";
+  trendingBlocker.style.alignItems = "center";
+  trendingBlocker.title = "Click to show for 10 seconds";
+  trendingBlocker.innerHTML = "<p>✌</p>";
+
+  let css =
+    ".vanilla_timeline__trending_blocker_show{ display:none !important }";
+  let style = document.createElement("style");
+  style.appendChild(document.createTextNode(css));
+
+  trending.prepend(style);
+
+  trendingBlocker.onclick = function () {
+    this.classList.contains("vanilla_timeline__trending_blocker_show")
+      ? this.classList.remove("vanilla_timeline__trending_blocker_show")
+      : this.classList.add("vanilla_timeline__trending_blocker_show");
+
+    setTimeout(
+      function (trendingBlocker) {
+        trendingBlocker.classList.remove(
+          "vanilla_timeline__trending_blocker_show"
+        );
+      },
+      10000,
+      this
+    );
+  };
+
+  trending.prepend(trendingBlocker);
+  trending.classList.add("vanilla-timeline-pass");
+};
+
 const onValidUrl = () => {
   let activeUrl = window.location.toString();
   // Only run on these three urls
@@ -209,6 +257,7 @@ var hideLikes = false;
 var hideLists = false;
 var hideFollow = false;
 var hidePromoted = false;
+var hideTrending = true;
 var whitelistAccounts = [];
 var selectedLanguage = "";
 var LocalizationSettings = {};
@@ -216,7 +265,7 @@ var LocalizationSettings = {};
 var allTweets = document.querySelectorAll("article");
 
 window.onload = async function () {
-  console.log("Vanilla Timeline is starting - v1.8.1");
+  console.log("Vanilla Timeline is starting - v1.9.0");
 
   while (true) {
     await sleep(300);
@@ -230,6 +279,7 @@ window.onload = async function () {
             hideLists: false,
             hideFollow: true,
             hidePromoted: false,
+            hideTrending: true,
             language: "English",
             accounts: [],
           },
@@ -239,6 +289,7 @@ window.onload = async function () {
             hideLists = items.hideLists;
             hideFollow = items.hideFollow;
             hidePromoted = items.hidePromoted;
+            hideTrending = items.hideTrending;
 
             if (selectedLanguage !== items.language) {
               selectedLanguage = items.language;
@@ -256,6 +307,12 @@ window.onload = async function () {
           }
         );
       } catch (e) {} // Chrome gets sad if you navigate out of script context. We don't care as the plugin shouldn't run then
+
+      // Modify the trending content section
+      if (hideTrending)
+        processTrending(
+          document.querySelector("[aria-label='Timeline: Trending now'")
+        );
 
       // Loop all article elements (tweets) every 300ms
       this.allTweets = document.querySelectorAll("article");
