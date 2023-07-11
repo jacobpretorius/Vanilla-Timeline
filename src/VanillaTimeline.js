@@ -163,29 +163,29 @@ const processTweets = () => {
       continue;
     }
     if (this.hideRetweets && checkChildForRetweet(tweet)) {
-      tweet.remove();
+      //tweet.remove();
+      tweet.style.filter = "blur(5px)";
       console.log("Retweet hidden.");
-      continue;
     }
     if (this.hideLikes && checkChildForLiked(tweet)) {
-      tweet.remove();
+      //tweet.remove();
+      tweet.style.filter = "blur(5px)";
       console.log("Liked tweet hidden.");
-      continue;
     }
     if (this.hideLists && checkChildForList(tweet)) {
-      tweet.remove();
+      //tweet.remove();
+      tweet.style.filter = "blur(5px)";
       console.log("List tweet hidden.");
-      continue;
     }
     if (this.hideFollow && checkChildForFollow(tweet)) {
-      tweet.remove();
+      //tweet.remove();
+      tweet.style.filter = "blur(5px)";
       console.log("Suggested related follow tweet hidden.");
-      continue;
     }
     if (this.hidePromoted && checkChildForPromoted(tweet)) {
-      tweet.remove();
+      //tweet.remove();
+      tweet.style.filter = "blur(30px)";
       console.log("Promoted tweet hidden.");
-      continue;
     }
     tweet.classList.add("vanilla-timeline-pass");
   }
@@ -265,7 +265,7 @@ var LocalizationSettings = {};
 var allTweets = document.querySelectorAll("article");
 
 window.onload = async function () {
-  console.log("Vanilla Timeline is starting - v1.9.0");
+  console.log("Vanilla Timeline is starting - v1.10.0");
 
   while (true) {
     await sleep(300);

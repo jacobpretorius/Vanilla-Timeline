@@ -1,11 +1,18 @@
 {
   "content_scripts": [
     {
-      "js": ["VanillaTimeline.js", "Localization.js"],
-      "matches": ["https://twitter.com/*"]
+      "js": [
+        "VanillaTimeline.js",
+        "Localization.js"
+      ],
+      "matches": [
+        "https://twitter.com/*"
+      ]
     }
   ],
-  "permissions": ["storage"],
+  "permissions": [
+    "storage"
+  ],
   "icons": {
     "16": "icon-16.png",
     "32": "icon-32.png",
@@ -13,7 +20,7 @@
     "128": "icon-128.png"
   },
   "name": "Vanilla Timeline for Twitter",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "author": "Jacob Pretorius",
   "description": "For those of us who like Twitter less noisy.",
   "homepage_url": "https://projects.jcpretorius.com/vanilla-timeline",
